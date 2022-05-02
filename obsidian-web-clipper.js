@@ -5,21 +5,7 @@ javascript: Promise.all([import('https://unpkg.com/turndown@6.0.0?module'), impo
 }]) => {
 
     /* Optional vault name */
-    const vault = "Vault";
-
-    /* Optional folder name such as "Clippings/" */
-    let folder = "Inbox";
-    if (!folder) {
-        folder = prompt("Folder:", "Inbox");
-    }
-
-    /* Optional tags  */
-    let tags = "#resource";
-    let allowExtraTags = false;
-    if (allowExtraTags) {
-        let extraTags = prompt("Additional tags:", "#read");
-        tags += extraTags;
-    }
+    const vault = "notes";
 
     function getSelectionHtml() {
         let html = "";
@@ -101,25 +87,21 @@ javascript: Promise.all([import('https://unpkg.com/turndown@6.0.0?module'), impo
     let archived = 'false';
     const today = convertDate(date);
 
-    const fileContent = '---\n'
-        + 'type: ' + type + '\n'
-        + 'description: ' + description + '\n'
-        + 'starred: ' + starred + '\n'
-        + 'archived: ' + archived + '\n'
-        + 'captured: ' + today + '\n'
-        + '---\n\n'
-        + 'Area::\n'
-        + 'Projects::\n'
-        + 'Author:: ' + byline + '\n'
-        + 'Publisher::\n'
-        + 'Source:: ' + document.URL + '\n'
-        + 'Files::\n'
-        + 'Tags:: ' + tags + '\n'
-        + '\n---\n'
-        + markdownBody;
+    const fileContent =
+        '[Artikel](' + document.URL + ')\n'
+        + '\n'
+        + '# tldr;\n'
+        + '\n'
+        + '# Artikel\n'
+        + '\n'
+        + markdownBody
+        + '\n\n'
+        + '---\n'
+        + '\n'
+        + '[[@ Articles]]';
 
     document.location.href = "obsidian://new?"
-        + "name=" + encodeURIComponent(folder + '/' + fileName)
+        + "name=" + encodeURIComponent(fileName)
         + "&content=" + encodeURIComponent(fileContent)
         + vaultName;
 })
